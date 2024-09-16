@@ -1,14 +1,16 @@
-#ifndef
-#define
+#ifndef PT_DICTIONARY
+#define PT_DICTIONARY
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <locale.h>
+#include <wchar.h>  // For wide characters (wchar_t)
+#include <wctype.h> // For wide character functions like iswalpha
 
+// Function declarations using wide characters
 void welcome_notes_PT();
-char *word_checker(const char *word);
-int ft_isalpha(int c);
-int ft_islower(int c);
-int ft_isupper(int c);
+int word_checker(const wchar_t *word);
+int ft_isalpha(wchar_t c);
 
 #endif
