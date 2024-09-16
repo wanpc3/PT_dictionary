@@ -2,31 +2,39 @@
 
 int main()
 {
-	char *word = malloc(sizeof(char) * 100); // allocate memory
-	int valid_word;
+    wchar_t *word = malloc(sizeof(wchar_t) * 100); // allocate memory for wide characters
+    int valid_word;
 
-	if (word == NULL)
-		return 1;
+    // Set locale to UTF-8
+    setlocale(LC_ALL, "en_US.UTF-8");
 
-	welcome_notes_PT();
+    if (word == NULL)
+        return 1;
 
-	do 
-	{
-		printf("Type to search: ");
-		if (scanf("%99s", word) != 1)
-		{
-			printf("Please try again.\n");
-			continue;
-		}
+    welcome_notes_PT();
 
-		valid_word = word_checker(word);
+    do 
+    {
+        wprintf(L"Type a word to search: ");
 
-		if (!valid_word)
-			printf("We couldn't find it, try again.\n");
-	}
-	while (!valid_word);
+        // Use fgetws to handle wide characters
+        if (fgetws(word, 100, stdin) == NULL)
+        {
+            wprintf(L"Invalid input, please try again.\n");
+            continue;
+        }
 
-	free(word); // deallocate memory
+        // Remove the newline character from fgetws
+        word[wcslen(word) - 1] = L'\0';
 
-	return (0);
+        valid_word = word_checker(word);
+
+        if (!valid_word)
+            wprintf(L"Word not found, try again.\n");
+    }
+    while (!valid_word);
+
+    free(word); // deallocate memory
+
+    return 0;
 }
